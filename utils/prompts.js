@@ -4,16 +4,14 @@
  * @param {Object} data
  * @returns {string}
  */
-
 export const resumeSummaryPrompt = (data) => {
-
     const {
-        fullName,
-        jobTitle,
-        experience,
-        skills,
-        education,
-        projects
+        fullName = "Not provided",
+            jobTitle = "Not provided",
+            experience = "Not provided",
+            skills = "Not provided",
+            education = "Not provided",
+            projects = "Not provided",
     } = data;
 
     return `
@@ -30,9 +28,10 @@ Follow these rules strictly:
 5. Do not use bullet points.
 6. Do not include headings.
 7. Do not invent fake experience.
-8. Only use the information provided.
-9. Highlight technical skills naturally.
-10. Return ONLY the summary text.
+8. Do not invent fake achievements or metrics.
+9. Only use the information provided.
+10. Highlight technical skills naturally.
+11. Return ONLY the summary text.
 
 Candidate Details
 
@@ -53,5 +52,53 @@ ${education}
 
 Projects:
 ${projects}
+`;
+};
+
+/**
+ * Generate ATS-friendly accomplishment improvement prompt.
+ *
+ * @param {string} role
+ * @param {string} company
+ * @param {string|Array} accomplishments
+ * @returns {string}
+ */
+export const accomplishmentPrompt = (
+    role = "full stack developer",
+    company = "Kommon school",
+    accomplishments = "improved the performance of the application by 30% and reduced the load time by 50%"
+) => {
+    const formattedAccomplishments = Array.isArray(accomplishments) ?
+        accomplishments.map((item) => `- ${item}`).join("\n") :
+        accomplishments;
+
+    return `
+You are an expert Resume Writer and ATS Resume Optimization Specialist.
+
+Your task is to improve the accomplishments section of a resume.
+
+Candidate Details
+
+Role:
+${role}
+
+Company:
+${company}
+
+Current Accomplishments:
+${formattedAccomplishments}
+
+Instructions:
+
+1. Rewrite each accomplishment professionally.
+2. Use strong action verbs.
+3. Improve grammar and readability.
+4. Make every point ATS-friendly.
+5. Keep the original meaning.
+6. Do NOT invent fake achievements, percentages, or metrics.
+7. Do NOT add new responsibilities that are not provided.
+8. Keep each bullet concise (15-30 words).
+9. Return ONLY bullet points.
+10. Do not add headings or explanations.
 `;
 };
