@@ -1,13 +1,15 @@
 import ai from "../config/gemini.js";
+
 import {
     resumeSummaryPrompt,
     accomplishmentPrompt,
     skillsPrompt,
+    experiencePrompt,
+    atsScorePrompt,
 } from "../utils/prompts.js";
 
-/**
- * Generate Resume Summary using Gemini AI
- */
+// ================= Resume Summary =================
+
 export const generateResumeSummary = async(resumeData) => {
     try {
         const prompt = resumeSummaryPrompt(resumeData);
@@ -20,22 +22,19 @@ export const generateResumeSummary = async(resumeData) => {
         const summary = response.text;
 
         if (!summary) {
-            throw new Error("No response generated from Gemini.");
+            throw new Error("No summary generated.");
         }
 
         return summary.trim();
-    } catch (error) {
-        console.error("Gemini Service Error:", error);
 
-        throw new Error(
-            error.message || "Failed to generate resume summary."
-        );
+    } catch (error) {
+        console.error("Gemini Summary Error:", error);
+        throw error;
     }
 };
 
-/**
- * Generate ATS-friendly Accomplishments
- */
+// ================= Accomplishments =================
+
 export const generateAccomplishments = async({
     role,
     company,
@@ -56,47 +55,27 @@ export const generateAccomplishments = async({
         const result = response.text;
 
         if (!result) {
-            throw new Error("No response generated from Gemini.");
+            throw new Error("No accomplishments generated.");
         }
 
         return result.trim();
-    } catch (error) {
-        console.error("Gemini Service Error:", error);
 
-        throw new Error(
-            error.message || "Failed to generate accomplishments."
-        );
+    } catch (error) {
+        console.error("Accomplishment Error:", error);
+        throw error;
     }
 };
 
-/**
- * Generic AI Content Generator
- */
-export const generateContent = async(prompt) => {
-    try {
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: prompt,
-        });
+// ================= Skills =================
 
-        const result = response.text;
-
-        if (!result) {
-            throw new Error("No response generated from Gemini.");
-        }
-
-        return result.trim();
-    } catch (error) {
-        console.error("Gemini Service Error:", error);
-
-        throw new Error(error.message || "Failed to generate AI content.");
-    }
-};
-//skillsPrompt
 export const generateSkills = async(resumeData) => {
     try {
 
-        const prompt = skillsPrompt(resumeData);
+        const prompt = skillsPrompt(
+            resumeData.role,
+            resumeData.skills,
+            resumeData.projects
+        );
 
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
@@ -112,7 +91,64 @@ export const generateSkills = async(resumeData) => {
         return skills.trim();
 
     } catch (error) {
-        console.error("Skills Generation Error:", error);
-        throw new Error(error.message || "Failed to generate skills.");
+        console.error("Skills Error:", error);
+        throw error;
+    }
+};
+
+// ================= Experience =================
+
+export const generateExperience = async(resumeData) => {
+    try {
+
+        const prompt = experiencePrompt(resumeData);
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+        });
+
+        const experience = response.text;
+
+        if (!experience) {
+            throw new Error("No experience generated.");
+        }
+
+        return experience.trim();
+
+    } catch (error) {
+        console.error("Experience Error:", error);
+        throw error;
+    }
+};
+
+// ================= ATS Score =================
+
+export const generateATSScore = async(resumeData) => {
+    try {
+
+        const prompt = atsScorePrompt(resumeData);
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+        });
+
+        let result = response.text;
+
+        if (!result) {
+            throw new Error("No ATS score generated.");
+        }
+
+        result = result
+            .replace(/```json/g, "")
+            .replace(/```/g, "")
+            .trim();
+
+        return JSON.parse(result);
+
+    } catch (error) {
+        console.error("ATS Score Error:", error);
+        throw error;
     }
 };

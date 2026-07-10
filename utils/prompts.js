@@ -1,9 +1,4 @@
-/**
- * Generate a professional ATS-friendly resume summary prompt.
- *
- * @param {Object} data
- * @returns {string}
- */
+// Resume Summary Prompt
 export const resumeSummaryPrompt = (data) => {
     const {
         fullName = "Not provided",
@@ -55,14 +50,7 @@ ${projects}
 `;
 };
 
-/**
- * Generate ATS-friendly accomplishment improvement prompt.
- *
- * @param {string} role
- * @param {string} company
- * @param {string|Array} accomplishments
- * @returns {string}
- */
+// Accomplishments Improvement Prompt
 export const accomplishmentPrompt = (
     role = "full stack developer",
     company = "Kommon school",
@@ -103,14 +91,7 @@ Instructions:
 `;
 };
 
-/**
- * Generate ATS-friendly technical skills suggestions.
- *
- * @param {string} role
- * @param {string|Array} currentSkills
- * @param {string|Array} projects
- * @returns {string}
- */
+// Skills Suggestion Prompt
 export const skillsPrompt = (
     role = "Full Stack Developer",
     currentSkills = ["React", "Node.js"],
@@ -152,4 +133,297 @@ Instructions:
 7. Return ONLY a comma-separated list of skills.
 8. Do not add headings, numbering, explanations, or markdown.
 `;
+};
+
+//  Generate ATS Friendly Experience
+
+
+export const experiencePrompt = (resumeData) => {
+
+    return `
+
+You are an Expert ATS Resume Writer, Technical Recruiter, and Hiring Manager.
+
+Your task is to generate a highly professional, ATS-friendly Experience section for a modern one-page resume.
+
+=========================
+Candidate Information
+=========================
+
+Role:
+${resumeData.role || ""}
+
+Skills:
+${Array.isArray(resumeData.skills)
+? resumeData.skills.join(", ")
+: resumeData.skills || ""}
+
+Education:
+${resumeData.education || ""}
+
+Projects:
+${resumeData.projects || ""}
+
+Experience:
+${resumeData.experience || ""}
+
+Summary:
+${resumeData.summary || ""}
+
+Achievements:
+${resumeData.achievements || ""}
+
+=========================
+Instructions
+=========================
+
+Analyze the complete resume before writing.
+
+Understand the candidate's
+
+• Role
+• Skills
+• Projects
+• Education
+• Technologies
+• Responsibilities
+• Achievements
+
+Generate professional resume experience.
+
+Each experience should contain only 3-4 bullet points.
+
+Each bullet must be ONLY 2-3 lines long on an A4 resume.
+
+Each bullet should
+
+• Start with a strong action verb.
+
+• Mention technologies naturally.
+
+• Explain responsibility.
+
+• Mention measurable impact whenever possible.
+
+• Show business value.
+
+• Be ATS friendly.
+
+Use action verbs like
+
+Developed
+
+Designed
+
+Implemented
+
+Integrated
+
+Optimized
+
+Engineered
+
+Built
+
+Created
+
+Collaborated
+
+Automated
+
+Improved
+
+Configured
+
+Validated
+
+Maintained
+
+Avoid
+
+Worked on
+
+Responsible for
+
+Helped
+
+Participated in
+
+Did
+
+Never generate fake companies.
+
+Never generate fake achievements.
+
+Never generate fake experience.
+
+If professional experience is missing,
+
+convert projects into internship-style professional experience using only the provided information.
+
+=========================
+Writing Style
+=========================
+
+Write exactly like resumes shortlisted at
+
+Google
+
+Microsoft
+
+Amazon
+
+Adobe
+
+Meta
+
+Apple
+
+Keep the language concise.
+
+Every bullet should have around 22-30 words.
+
+Avoid lengthy paragraphs.
+
+Avoid unnecessary adjectives.
+
+Focus on technical contribution and impact.
+
+=========================
+Example Style
+=========================
+
+• Developed scalable MERN applications using React.js, Node.js, Express.js, and MongoDB, improving application performance and delivering responsive user experiences.
+
+• Integrated secure REST APIs with JWT authentication and optimized backend services, reducing response time while ensuring reliable communication between frontend and backend.
+
+• Collaborated with cross-functional teams using Git and GitHub to deliver production-ready features while maintaining clean, reusable, and well-documented code.
+
+Return ONLY bullet points.
+
+Do not return JSON.
+
+Do not return explanation.
+
+Do not return headings.
+
+`;
+
+};
+//  ATS Score Prompt
+
+
+export const atsScorePrompt = (resumeData) => {
+
+    return `
+
+You are an Expert ATS Resume Analyzer and Technical Recruiter.
+
+Analyze the following resume according to modern ATS standards.
+
+Resume
+
+Job Title:
+${resumeData.jobTitle || ""}
+
+Summary:
+${resumeData.summary || ""}
+
+Skills:
+${Array.isArray(resumeData.skills)
+? resumeData.skills.join(", ")
+: resumeData.skills || ""}
+
+Experience:
+${Array.isArray(resumeData.experience)
+? resumeData.experience.join("\n")
+: resumeData.experience || ""}
+
+Projects:
+${Array.isArray(resumeData.projects)
+? resumeData.projects.join("\n")
+: resumeData.projects || ""}
+
+Education:
+${resumeData.education || ""}
+
+Job Description:
+${resumeData.jobDescription || ""}
+
+Instructions
+
+Analyze
+
+• Resume Summary
+
+• Skills
+
+• Experience
+
+• Projects
+
+• Education
+
+• ATS Keywords
+
+• Formatting
+
+• Readability
+
+• Action Verbs
+
+• Grammar
+
+Give mathematical scores between 0 and 100.
+
+Return ONLY valid JSON.
+
+{
+  "overallScore": 91,
+  "summaryScore": 88,
+  "skillsScore": 90,
+  "experienceScore": 94,
+  "projectsScore": 92,
+  "educationScore": 100,
+  "keywordMatch": 89,
+  "formattingScore": 93,
+  "atsRating":"Excellent",
+  "strengths":[
+      "",
+      ""
+  ],
+  "weaknesses":[
+      "",
+      ""
+  ],
+  "missingKeywords":[
+      "",
+      ""
+  ],
+  "suggestions":[
+      "",
+      ""
+  ]
+}
+
+Rules
+
+overallScore must be integer.
+
+Every score should be between 0 and 100.
+
+atsRating should be
+
+Excellent
+
+Good
+
+Average
+
+Poor
+
+Return only JSON.
+
+`;
+
 };
