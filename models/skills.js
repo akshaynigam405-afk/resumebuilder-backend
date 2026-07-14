@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 
 const skillSchema = new mongoose.Schema({
-    name: {
+    category: {
         type: String,
-        required: true,
-        unique: true,
-        trim: true
+        required: true
+    },
+    skills: {
+        type: [String],
+        required: true
     }
 });
 

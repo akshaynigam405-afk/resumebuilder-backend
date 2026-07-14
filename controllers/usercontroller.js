@@ -116,6 +116,43 @@ export const skills = async (req, res) => {
     }
 };
 
+//post api for skills
+
+
+export const skill = async (req, res) => {
+    try {
+        const ski = await usermodel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $push: {
+                    skills: {
+                        $each: req.body.skills
+                    }
+                },
+                educationCompleted: true
+            },
+            {
+                new: true
+            }
+        );
+
+        res.status(200).json({
+            message: "successful",
+            data: ski
+        });
+
+        console.log(ski);
+        console.log(req.params.id);
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Went wrong",
+            error: err.message
+        });
+    }
+};
 
 
 

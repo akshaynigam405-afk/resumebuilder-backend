@@ -12,7 +12,8 @@ router.post("/education/:id",education)
 
 
 //get api
-router.get("/skills",skills)
+router.get("/skills/:id",skills)
+router.post("/skills/:id",skills)
 
 
 export default router
