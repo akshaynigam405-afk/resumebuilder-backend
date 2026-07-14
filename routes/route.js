@@ -1,5 +1,5 @@
 import express from "express"
-import { createresume,experience,education,skills } from "../controllers/usercontroller.js";
+import { createresume,experience,education,skills, skillw } from "../controllers/usercontroller.js";
 
 
 //post apis 
@@ -12,8 +12,8 @@ router.post("/education/:id",education)
 
 
 //get api
-router.get("/skills/:id",skills)
-router.post("/skills/:id",skills)
+router.get("/skills",skills)
+router.post("/skills/:id",skillw)
 
 
 export default router

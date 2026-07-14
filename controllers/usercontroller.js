@@ -94,7 +94,7 @@ export const education = async (req, res) => {
 };
 
 
-//get api for skills
+//get api for skills for fetching the tags
 export const skills = async (req, res) => {
     try {
         const search = (req.query.search || "").toLowerCase();
@@ -119,7 +119,7 @@ export const skills = async (req, res) => {
 //post api for skills
 
 
-export const skill = async (req, res) => {
+export const skillw = async (req, res) => {
     try {
         const ski = await usermodel.findByIdAndUpdate(
             req.params.id,
@@ -129,7 +129,7 @@ export const skill = async (req, res) => {
                         $each: req.body.skills
                     }
                 },
-                educationCompleted: true
+                
             },
             {
                 new: true
