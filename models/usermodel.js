@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const userschema = new mongoose.Schema({
     fullName: {
         type: String,
@@ -11,7 +10,6 @@ const userschema = new mongoose.Schema({
     jobTitle: {
         type: String,
         required: true,
-
     },
 
     email: {
@@ -20,12 +18,12 @@ const userschema = new mongoose.Schema({
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         unique: true
     },
+
     phone: {
         type: Number,
-
         match: [/^[0-9]{10}$/, "Phone number must be 10 digits"]
-
     },
+
     location: {
         type: String,
         required: true
@@ -35,14 +33,11 @@ const userschema = new mongoose.Schema({
         type: String,
         required: true
     },
+
     summary: {
         type: String,
         required: true,
-
     },
-
-
-
 
     // Fields for experience page below
     experience: [
@@ -54,18 +49,15 @@ const userschema = new mongoose.Schema({
             accomplishments: String
         }
     ],
-  
-// validation check if user has completed experience
+
+    // validation check if user has completed experience
     experienceCompleted: {
         type: Boolean,
         default: false
     },
 
-
-
-
     //education form schema
-     education: [
+    education: [
         {
             school: String,
             degree: String,
@@ -83,20 +75,32 @@ const userschema = new mongoose.Schema({
         default: false
     },
 
-
-
-
-
-
     //skills
     skills: {
         type: [String],
-        default: []
+        default: [],
+    }
+});
+
+const userSchema = new mongoose.Schema({
+    userName: {
+        type: String,
+        default: null
     },
-})
-
-
+    email: {
+        type: String,
+        default: null
+    },
+    password: {
+        type: String,
+        default: null
+    },
+});
 
 const user = mongoose.model("userinfo", userschema);
 
 export default user;
+
+const userModel = mongoose.model("userData", userSchema);
+
+export {user,userModel}
