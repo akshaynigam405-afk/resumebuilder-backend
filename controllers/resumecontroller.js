@@ -3,8 +3,7 @@ import { PDFParse } from "pdf-parse";
 import mammoth from "mammoth";
 
 import Resume from "../models/resumemodel.js";
-import parseresume from "../utils/parseresume.js";
-
+import { parseResumeWithGemini } from "../utils/geminiparser.js";
 
 export const uploadResume = async (req, res) => {
 
@@ -79,17 +78,20 @@ export const uploadResume = async (req, res) => {
         console.log(resumeText);
         console.log("=================================");
        
-        // Parse Resume
-    
-        const resumeData = parseresume(resumeText);
+       // Parse Resume using Gemini
+       const resumeData = await parseResumeWithGemini(resumeText);
 
-        // Store original resume text
+       // Store original resume text
+       resumeData.resumeText = resumeText;
+        
+       // Save in MongoDB
 
-        resumeData.resumeText = resumeText;
-       
-        // Save in MongoDB
-
+        console.log("========== Gemini Parsed Data ==========");
+        console.log(JSON.stringify(resumeData, null, 2));
+        
         const resume = await Resume.create(resumeData);
+        console.log("========== Saved Document ==========");
+        console.log(resume);
 
         // Delete uploaded file
 
