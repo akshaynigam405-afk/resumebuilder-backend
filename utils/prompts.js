@@ -427,3 +427,76 @@ Return only JSON.
 `;
 
 };
+//  <-------Project Description Prompt ---------->
+
+export const projectDescriptionPrompt = (data) => {
+
+    return `
+
+You are an expert Resume Writer and ATS Resume Optimization Specialist.
+
+Generate ATS-friendly project description.
+
+Project Name:
+${data.projectName || ""}
+
+Role:
+${data.role || ""}
+
+Technologies:
+${data.techStack || ""}
+
+Current Description:
+${data.description || ""}
+
+Instructions:
+
+1. Improve the description.
+2. Use strong action verbs.
+3. Keep original meaning.
+4. Do not invent fake features.
+5. Write 3-5 bullet points.
+6. Mention technologies naturally.
+7. Keep ATS friendly.
+8. Return ONLY bullet points.
+
+`;
+
+};
+//  <-------Certificate Description Prompt ---------->
+export const certificateDescriptionPrompt = (data) => {
+
+    return `
+You are an expert Resume Writer and ATS Resume Optimization Specialist.
+
+Generate an ATS-friendly certificate description.
+
+Certification Name:
+${data.certificationName || ""}
+
+Issuing Organization:
+${data.organization || ""}
+
+Issue Date:
+${data.issueDate || ""}
+
+Expiration Date:
+${data.expiryDate || ""}
+
+Instructions:
+
+- Write exactly 3 professional bullet points.
+- Use strong action verbs.
+- Mention the knowledge and skills gained.
+- Do not invent fake achievements.
+- Keep each bullet between 15-25 words.
+- ATS friendly.
+- Return ONLY bullet points.
+
+Example:
+
+• Gained strong understanding of cloud computing concepts and AWS core services.
+• Completed practical labs covering IAM, EC2, S3, networking, and security best practices.
+• Demonstrated foundational cloud knowledge through industry-recognized AWS certification.
+`;
+};

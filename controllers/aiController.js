@@ -4,6 +4,8 @@ import {
     generateSkills,
     generateExperience,
     generateATSScore,
+    generateProjectDescription,
+    generateCertificateDescriptionAI,
 } from "../services/geminiService.js";
 
 // ================= Resume Summary =================
@@ -193,4 +195,72 @@ export const checkATSScore = async(req, res) => {
 
     }
 
+};
+// ================= Project Description =================
+
+export const improveProjectDescription = async (req, res) => {
+    try {
+
+        const projectData = req.body;
+
+        if (!projectData.projectName) {
+            return res.status(400).json({
+                success: false,
+                message: "Project Name is required."
+            });
+        }
+
+        const description = await generateProjectDescription(projectData);
+
+        return res.status(200).json({
+            success: true,
+            description,
+        });
+
+    } catch (error) {
+
+        console.error("Project Description Error:", error);
+
+        if (error.status === 503) {
+            return res.status(503).json({
+                success: false,
+                message: "Gemini AI is busy. Please try again."
+            });
+        }
+
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Failed to generate project description."
+        });
+
+    }
+};
+ // ================= Certificate Description =================
+
+export const generateCertificateDescription = async (req, res) => {
+    try {
+        const certificateData = req.body;
+
+        if (!certificateData.certificationName) {
+            return res.status(400).json({
+                success: false,
+                message: "Certification Name is required."
+            });
+        }
+
+        const description = await generateCertificateDescriptionAI(certificateData);
+
+        return res.status(200).json({
+            success: true,
+            description,
+        });
+
+    } catch (error) {
+        console.error("Certificate Description Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Failed to generate certificate description."
+        });
+    }
 };

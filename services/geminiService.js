@@ -6,6 +6,8 @@ import {
     skillsPrompt,
     experiencePrompt,
     atsScorePrompt,
+    projectDescriptionPrompt,
+    certificateDescriptionPrompt,
 } from "../utils/prompts.js";
 
 // ================= Resume Summary =================
@@ -149,6 +151,59 @@ export const generateATSScore = async(resumeData) => {
 
     } catch (error) {
         console.error("ATS Score Error:", error);
+        throw error;
+    }
+};
+
+// ================= Project Description =================
+
+export const generateProjectDescription = async(projectData) => {
+    try {
+
+        const prompt = projectDescriptionPrompt(projectData);
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+        });
+
+        const description = response.text;
+
+        if (!description) {
+            throw new Error("No project description generated.");
+        }
+
+        return description.trim();
+
+    } catch (error) {
+        console.error("Project Description Error:", error);
+        throw error;
+    }
+};
+
+// ================= Certificate Description =================
+
+
+export const generateCertificateDescriptionAI = async (certificateData) => {
+    try {
+
+        const prompt = certificateDescriptionPrompt(certificateData);
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+        });
+
+        const description = response.text;
+
+        if (!description) {
+            throw new Error("No certificate description generated.");
+        }
+
+        return description.trim();
+
+    } catch (error) {
+        console.error("Certificate Description Error:", error);
         throw error;
     }
 };
