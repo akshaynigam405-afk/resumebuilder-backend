@@ -50,13 +50,12 @@ const userschema = new mongoose.Schema({
         }
     ],
 
-    // validation check if user has completed experience
     experienceCompleted: {
         type: Boolean,
         default: false
     },
 
-    //education form schema
+    // education form schema
     education: [
         {
             school: String,
@@ -75,10 +74,45 @@ const userschema = new mongoose.Schema({
         default: false
     },
 
-    //skills
+    // skills
     skills: {
         type: [String],
         default: [],
+    },
+
+    // project form schema
+    projects: [
+        {
+            projectname: String,
+            role: String,
+            link: String,
+            tech: [String],
+            start: Date,
+            end: Date,
+            description: String
+        }
+    ],
+
+    projectsCompleted: {
+        type: Boolean,
+        default: false
+    },
+
+    // certificate form schema
+    certificates: [
+        {
+            certificateName: String,
+            issuingOrg: String,
+            credentialId: String,
+            credentialUrl: String,
+            issueDate: Date,
+            expirationDate: Date
+        }
+    ],
+
+    certificatesCompleted: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -103,4 +137,4 @@ export default user;
 
 const userModel = mongoose.model("userData", userSchema);
 
-export {user,userModel}
+export {user,userModel};

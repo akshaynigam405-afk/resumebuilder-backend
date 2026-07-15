@@ -80,6 +80,84 @@ export const uploadResume = async (req, res) => {
        
        // Parse Resume using Gemini
        const resumeData = await parseResumeWithGemini(resumeText);
+       
+       // Normalize Personal Info
+        resumeData.personalInfo = {
+        fullName: resumeData.personalInfo?.fullName || "",
+        jobTitle: resumeData.personalInfo?.jobTitle || "",
+        email: resumeData.personalInfo?.email || "",
+        phone: resumeData.personalInfo?.phone || "",
+        location:
+        resumeData.personalInfo?.location ||
+        resumeData.personalInfo?.address ||"",
+        
+        portfolio:
+        resumeData.personalInfo?.portfolio ||
+        resumeData.personalInfo?.linkedin ||
+        resumeData.personalInfo?.github ||"",
+        
+        professionalSummary:
+        resumeData.personalInfo?.professionalSummary ||
+        resumeData.summary ||
+        ""
+    };
+    
+    // Normalize Experience
+    resumeData.experience = (resumeData.experience || []).map(exp => ({
+    company: exp.company || "",
+    role: exp.role || "",
+    startDate: exp.startDate || "",
+    endDate: exp.endDate || "",
+    accomplishments: exp.accomplishments || "",
+    currentlyWorking: exp.currentlyWorking || false
+}));
+
+// Normalize Education
+    resumeData.education = (resumeData.education || []).map(edu => ({
+    school: edu.school || "",
+    degree: edu.degree || "",
+    fieldOfStudy: edu.fieldOfStudy || "",
+    description: edu.description || "",
+    startDate: edu.startDate || "",
+    endDate: edu.endDate || "",
+    cgpa: edu.cgpa || "",
+    highlights: edu.highlights || "",
+    currentlyStudying: edu.currentlyStudying || false
+}));
+
+// Normalize Skills
+
+resumeData.skills = Array.isArray(resumeData.skills)
+    ? resumeData.skills
+    : [];
+
+// Normalize Projects
+
+resumeData.projects = (resumeData.projects || []).map(project => ({
+    projectName: project.projectName || "",
+    role: project.role || "",
+    link: project.link || "",
+    technologies: Array.isArray(project.technologies)
+        ? project.technologies
+        : [],
+    startDate: project.startDate || "",
+    endDate: project.endDate || "",
+    description: project.description || ""
+}));
+
+// Normalize Certifications
+
+resumeData.certifications = (resumeData.certifications || []).map(cert => ({
+    name: cert.name || "",
+    organization: cert.organization || "",
+    credentialId: cert.credentialId || "",
+    issueDate: cert.issueDate || "",
+    expiryDate: cert.expiryDate || "",
+    learned: cert.learned || ""
+}));
+
+// Store original resume text
+resumeData.resumeText = resumeText;
 
        // Store original resume text
        resumeData.resumeText = resumeText;
