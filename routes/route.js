@@ -1,5 +1,5 @@
 import express from "express"
-import { createresume,experience,education,skills, skillw } from "../controllers/usercontroller.js";
+import { createresume,experience,education,skills, skillw,projects,certificates } from "../controllers/usercontroller.js";
 
 
 //post apis 
@@ -7,8 +7,8 @@ const router=express.Router()
 router.post("/createresume", createresume);
 router.post("/experience/:id",experience)
 router.post("/education/:id",education)
-// router.post("/projects/:id",project)
-// router.post("/certificates/:id",certificate)
+router.post("/projects/:id",projects)
+router.post("/certificates/:id",certificates)
 
 
 //get api

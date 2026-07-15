@@ -118,7 +118,6 @@ export const skills = async (req, res) => {
 
 //post api for skills
 
-
 export const skillw = async (req, res) => {
     try {
         const ski = await usermodel.findByIdAndUpdate(
@@ -155,7 +154,128 @@ export const skillw = async (req, res) => {
 };
 
 
+// project and certificate function
+export const projects = async (req, res) => {
+    try {
+        const project = await usermodel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $push: {
+                    projects: {
+                        $each: req.body
+                    }
+                },
+                projectsCompleted: true
+            },
+            {
+                new: true
+            }
+        );
 
+        res.status(200).json({
+            message: "successful",
+            data: project
+        });
+
+        console.log(project);
+        console.log(req.params.id);
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Went wrong",
+            error: err.message
+        });
+    }
+};
+
+
+export const certificates = async (req, res) => {
+    try {
+        const certificate = await usermodel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $push: {
+                    certificates: {
+                        $each: req.body
+                    }
+                },
+                certificatesCompleted: true
+            },
+            {
+                new: true
+            }
+        );
+
+        res.status(200).json({
+            message: "successful",
+            data: certificate
+        });
+
+        console.log(certificate);
+        console.log(req.params.id);
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Went wrong",
+            error: err.message
+        });
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//this is yash bhaiyas code
 import userModel from "../models/usermodel.js";
 
 export const createUser = async (req, res) => {
