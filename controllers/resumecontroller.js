@@ -80,6 +80,8 @@ export const uploadResume = async (req, res) => {
        
        // Parse Resume using Gemini
        const resumeData = await parseResumeWithGemini(resumeText);
+       console.log("========== RAW GEMINI RESPONSE ==========");
+       console.log(JSON.stringify(resumeData, null, 2));
        
        // Normalize Personal Info
         resumeData.personalInfo = {
@@ -113,10 +115,11 @@ export const uploadResume = async (req, res) => {
 }));
 
 // Normalize Education
-    resumeData.education = (resumeData.education || []).map(edu => ({
+   resumeData.education = (resumeData.education || []).map(edu => ({
     school: edu.school || "",
     degree: edu.degree || "",
     fieldOfStudy: edu.fieldOfStudy || "",
+    location: edu.location || edu.address || "",
     description: edu.description || "",
     startDate: edu.startDate || "",
     endDate: edu.endDate || "",
@@ -124,7 +127,6 @@ export const uploadResume = async (req, res) => {
     highlights: edu.highlights || "",
     currentlyStudying: edu.currentlyStudying || false
 }));
-
 // Normalize Skills
 
 resumeData.skills = Array.isArray(resumeData.skills)
@@ -148,19 +150,16 @@ resumeData.projects = (resumeData.projects || []).map(project => ({
 // Normalize Certifications
 
 resumeData.certifications = (resumeData.certifications || []).map(cert => ({
-    name: cert.name || "",
+    name: cert.name || cert.certificateName || "",
     organization: cert.organization || "",
     credentialId: cert.credentialId || "",
     issueDate: cert.issueDate || "",
-    expiryDate: cert.expiryDate || "",
-    learned: cert.learned || ""
+    expiryDate: cert.expiryDate || cert.expirationDate || "",
+    learned: cert.learned || cert.description || ""
 }));
 
 // Store original resume text
 resumeData.resumeText = resumeText;
-
-       // Store original resume text
-       resumeData.resumeText = resumeText;
         
        // Save in MongoDB
 
