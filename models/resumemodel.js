@@ -55,6 +55,7 @@ const resumeSchema = new mongoose.Schema(
             description: String,
             startDate: String,
             endDate: String,
+            location: String,
             cgpa: String,
             highlights: String,
             currentlyStudying: {
