@@ -310,12 +310,8 @@ Do not return headings.
 `;
 
 };
-//  ATS Score Prompt
-
-
 export const atsScorePrompt = (resumeData) => {
-
-    return `
+return `
 
 You are an Expert ATS Resume Analyzer and Technical Recruiter.
 
@@ -331,18 +327,18 @@ ${resumeData.summary || ""}
 
 Skills:
 ${Array.isArray(resumeData.skills)
-? resumeData.skills.join(", ")
-: resumeData.skills || ""}
+    ? resumeData.skills.join(", ")
+    : resumeData.skills || ""}
 
 Experience:
 ${Array.isArray(resumeData.experience)
-? resumeData.experience.join("\n")
-: resumeData.experience || ""}
+    ? resumeData.experience.join("\n")
+    : resumeData.experience || ""}
 
 Projects:
 ${Array.isArray(resumeData.projects)
-? resumeData.projects.join("\n")
-: resumeData.projects || ""}
+    ? resumeData.projects.join("\n")
+    : resumeData.projects || ""}
 
 Education:
 ${resumeData.education || ""}
@@ -350,83 +346,81 @@ ${resumeData.education || ""}
 Job Description:
 ${resumeData.jobDescription || ""}
 
-Instructions
-
-Analyze
-
-• Resume Summary
-
-• Skills
-
-• Experience
-
-• Projects
-
-• Education
-
-• ATS Keywords
-
-• Formatting
-
-• Readability
-
-• Action Verbs
-
-• Grammar
-
-Give mathematical scores between 0 and 100.
-
-Return ONLY valid JSON.
+Analyze the resume and return ONLY valid JSON.
 
 {
   "overallScore": 91,
-  "summaryScore": 88,
-  "skillsScore": 90,
-  "experienceScore": 94,
-  "projectsScore": 92,
-  "educationScore": 100,
-  "keywordMatch": 89,
-  "formattingScore": 93,
-  "atsRating":"Excellent",
+  "matchLevel": "Great Match",
+
+  "keywordDensity": "Good",
+
+  "formatting": "Excellent",
+
+  "impactMetrics": "Needs Improvement",
+
+  "summaryScore":88,
+  "skillsScore":90,
+  "experienceScore":92,
+  "projectsScore":94,
+  "educationScore":95,
+
   "strengths":[
-      "",
-      ""
+      "Strong technical skills",
+      "Relevant projects"
   ],
+
   "weaknesses":[
-      "",
-      ""
+      "Experience lacks measurable achievements",
+      "Missing cloud technologies"
   ],
+
   "missingKeywords":[
-      "",
-      ""
+      "Docker",
+      "AWS",
+      "CI/CD"
   ],
-  "suggestions":[
-      "",
-      ""
+
+  "quickFixes":[
+      "Add measurable achievements in Experience.",
+      "Mention Docker and AWS skills.",
+      "Include GitHub project links.",
+      "Improve project descriptions using action verbs."
   ]
 }
 
 Rules
 
-overallScore must be integer.
+overallScore must be integer between 0-100.
 
-Every score should be between 0 and 100.
-
-atsRating should be
-
+keywordDensity must be one of:
 Excellent
-
 Good
-
 Average
-
 Poor
 
-Return only JSON.
+formatting must be one of:
+Excellent
+Good
+Average
+Poor
 
+impactMetrics must be one of:
+Excellent
+Good
+Average
+Needs Improvement
+
+matchLevel must be one of:
+Excellent Match
+Great Match
+Good Match
+Fair Match
+Requires Attention
+
+Return ONLY JSON.
 `;
-
 };
+
 //  <-------Project Description Prompt ---------->
 
 export const projectDescriptionPrompt = (data) => {

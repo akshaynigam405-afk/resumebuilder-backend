@@ -5,15 +5,19 @@ import { createresume,experience,education,skills, skillw,projects,certificates 
 //post apis 
 const router=express.Router()
 router.post("/createresume", createresume);
-router.post("/experience/:id",experience)
-router.post("/education/:id",education)
-router.post("/projects/:id",projects)
-router.post("/certificates/:id",certificates)
+router.put("/experience/:id",experience)
+router.put("/education/:id",education)
+router.put("/projects/:id",projects)
+router.put("/certificates/:id",certificates)
 
 
 //get api
 router.get("/skills",skills)
-router.post("/skills/:id",skillw)
+router.put("/skills/:id",skillw)
+
+
+//fetch API for resume preview
+// router.get("/my-resume")
 
 
 export default router
