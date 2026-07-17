@@ -17,7 +17,7 @@ export const generateResumeSummary = async(resumeData) => {
         const prompt = resumeSummaryPrompt(resumeData);
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3.5-flash",
             contents: prompt,
         });
 
@@ -50,7 +50,7 @@ export const generateAccomplishments = async({
         );
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3.5-flash",
             contents: prompt,
         });
 
@@ -80,7 +80,7 @@ export const generateSkills = async(resumeData) => {
         );
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3.5-flash",
             contents: prompt,
         });
 
@@ -106,7 +106,7 @@ export const generateExperience = async(resumeData) => {
         const prompt = experiencePrompt(resumeData);
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3.5-flash",
             contents: prompt,
         });
 
@@ -132,7 +132,7 @@ export const generateATSScore = async(resumeData) => {
         const prompt = atsScorePrompt(resumeData);
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3.5-flash",
             contents: prompt,
         });
 
@@ -163,7 +163,7 @@ export const generateProjectDescription = async(projectData) => {
         const prompt = projectDescriptionPrompt(projectData);
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3.5-flash",
             contents: prompt,
         });
 
@@ -190,7 +190,7 @@ export const generateCertificateDescriptionAI = async (certificateData) => {
         const prompt = certificateDescriptionPrompt(certificateData);
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3.5-flash",
             contents: prompt,
         });
 
