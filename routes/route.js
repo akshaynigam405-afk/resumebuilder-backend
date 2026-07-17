@@ -17,7 +17,7 @@ router.put("/skills/:id",skillw)
 
 
 //fetch API for resume preview
-router.get("/my-resume")
+// router.get("/my-resume")
 
 
 export default router
