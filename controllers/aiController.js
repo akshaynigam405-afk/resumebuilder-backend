@@ -157,44 +157,42 @@ export const generateExperienceSection = async(req, res) => {
 
 // ================= ATS Score =================
 
-export const checkATSScore = async(req, res) => {
-
+export const checkATSScore = async (req, res) => {
     try {
 
         const resumeData = req.body;
 
         if (!resumeData.jobTitle) {
-
             return res.status(400).json({
                 success: false,
                 message: "Job Title is required."
             });
-
         }
 
         const atsAnalysis = await generateATSScore(resumeData);
 
         return res.status(200).json({
-
             success: true,
-            score: `${atsAnalysis.overallScore}/100`,
-            data: atsAnalysis,
-
+            score: atsAnalysis.overallScore,
+            overallScore: atsAnalysis.overallScore,
+            keywordDensity: atsAnalysis.keywordDensity,
+            formatting: atsAnalysis.formatting,
+            impactMetrics: atsAnalysis.impactMetrics,
+            matchLevel: atsAnalysis.matchLevel,
+            quickFixes: atsAnalysis.quickFixes,
+            data: atsAnalysis
         });
 
     } catch (error) {
 
-        console.error(error);
+        console.error("ATS Error:", error);
 
         return res.status(500).json({
-
             success: false,
-            message: error.message
-
+            message: error.message || "Failed to generate ATS Score."
         });
 
     }
-
 };
 // ================= Project Description =================
 

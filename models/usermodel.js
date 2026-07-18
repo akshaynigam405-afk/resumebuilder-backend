@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
+// import {z} from zod;
 
 const userschema = new mongoose.Schema({
+    userId:{
+        type:String,
+        required:true
+    },
     fullName: {
         type: String,
         required: true,

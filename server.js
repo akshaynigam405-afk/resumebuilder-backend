@@ -76,20 +76,4 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start Server
-// const start = async() => {
-//     try {
-//         await connectDB();
 
-//         console.log("✅ Database Connected");
-
-//         app.listen(PORT, () => {
-//             console.log(`🚀 Server running at http://localhost:${PORT}`);
-//         });
-
-//     } catch (error) {
-//         console.error("Database Connection Error:", error.message);
-//     }
-// };
-
-// start();
