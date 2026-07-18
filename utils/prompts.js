@@ -492,5 +492,24 @@ Example:
 • Gained strong understanding of cloud computing concepts and AWS core services.
 • Completed practical labs covering IAM, EC2, S3, networking, and security best practices.
 • Demonstrated foundational cloud knowledge through industry-recognized AWS certification.
+Return ONLY bullet points.
+
+Do not return JSON.
+
+Do not return explanation.
+
+Do not return headings.
+
+IMPORTANT:
+
+Return plain text only.
+
+Do not use Markdown formatting.
+
+Never use **bold**, *italic*, _,  or any Markdown symbols.
+
+Do not bold technology names.
+
+Use only standard bullet points (•).
 `;
 };
