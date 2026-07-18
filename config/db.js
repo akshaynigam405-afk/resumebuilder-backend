@@ -1,17 +1,21 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+import dns from "dns";
 
-//connection to database, which currectly leads to my own database for testing
-const DB = async () =>{
-try{
-    await mongoose.connect("mongodb+srv://akshaynigam405_db_user:filOR5YCgAhMthZz@cluster0.llhntdb.mongodb.net/resume-builder?appName=Cluster0");
-    console.log("DB connected succesfully");
-    
-}
-    catch(err){
-        console.error("DB connection failed",err.message);
-        
+dns.setServers(["8.8.8.8","8.8.4.4"])
+
+const DB = async () => {
+    try {
+        console.log(process.env.MONGODB_URI);
+
+        await mongoose.connect(process.env.MONGODB_URI);
+
+        console.log("DB Connected Successfully");
+        console.log("Database Name:", mongoose.connection.name);
+
+    } catch (err) {
+        console.error("DB connection failed", err);
         process.exit(1);
-
     }
-}
-export default DB;    
+};
+
+export default DB;

@@ -1,30 +1,34 @@
-import dotenv from "dotenv"
-import express from "express"
-import DB from "./config/db.js"
-import route from "./routes/route.js"
-import resumeroute from "./routes/resume.js";
-import cors from "cors"
-import dns from "dns"
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
 
-
-dns.setServers(["8.8.8.8","8.8.4.4"]);
+import connectDB from "./config/db.js";
+import resumeRoutes from "./routes/resume.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT ;
-
 const app = express();
 
+// Database
+connectDB();
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", route);
-app.use("/api", resumeroute);
+// Routes
+//app.use("/", resumeRoutes);
+app.use("/api/resume", resumeRoutes);
 
+// Test Route
+app.get("/", (req, res) => {
+    res.send("Resume Builder Backend Running...");
+});
 
-// Database connection
-DB();
+// Start Server
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-  console.log(`server is running on ${PORT}`);
+    console.log(`${PORT} Server is Running`);
 });

@@ -2,6 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
+console.log("Gemini Key:", process.env.GEMINI_API_KEY);
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
@@ -159,6 +160,13 @@ Extract:
 
 Return empty values if information does not exist.
 
+IMPORTANT:
+Return all dates in YYYY-MM-DD format whenever possible.
+Examples:
+June 2022 → 2022-06-01
+March 2021 → 2021-03-01
+2019 → 2019-01-01
+
 Resume:
 
 ${resumeText}
@@ -230,7 +238,7 @@ ${resumeText}
     } catch (error) {
 
         console.error("Gemini Parser Error:", error);
-
+    
         if (error.status === 429) {
             throw new Error(
                 "Gemini API quota exceeded. Please wait or use another API key."
