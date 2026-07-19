@@ -519,12 +519,14 @@ export const duplicateResume = async (req, res) => {
         delete duplicate.createdAt;
         delete duplicate.updatedAt;
         delete duplicate.__v;
+        delete duplicate.email; 
 
         duplicate.title = `${resume.title} Copy`;
         duplicate.status = "draft";
         duplicate.progress = 90;     // 7th step tak completed
         duplicate.currentStep = 7;   // ATS Analysis se continue hoga
         duplicate.atsScore = 0;      // Naya ATS score generate hoga
+        duplicate.email = `${Date.now()}@temp.com`;
 
         const newResume = await Resume.create(duplicate);
 
@@ -534,12 +536,12 @@ export const duplicateResume = async (req, res) => {
         });
 
     } catch (error) {
+        console.error("Duplicate Resume Error:", error);
 
         res.status(500).json({
             success: false,
             message: error.message,
         });
-
     }
 
 };
