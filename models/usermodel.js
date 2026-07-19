@@ -21,7 +21,7 @@ const userschema = new mongoose.Schema({
         type: String,
         required: true,
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        unique: true
+        // unique: true
     },
 
     phone: {

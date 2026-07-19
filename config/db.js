@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 //connection to database, which currectly leads to my own database for testing
 const DB = async () =>{
 try{
-    await mongoose.connect("mongodb+srv://akshaynigam405_db_user:filOR5YCgAhMthZz@cluster0.llhntdb.mongodb.net/resume-builder?appName=Cluster0");
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("DB connected succesfully");
     
 }

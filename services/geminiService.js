@@ -12,7 +12,7 @@ import {
 
 // ================= Resume Summary =================
 
-export const generateResumeSummary = async(resumeData) => {
+export const generateResumeSummary = async (resumeData) => {
     try {
         const prompt = resumeSummaryPrompt(resumeData);
 
@@ -37,7 +37,7 @@ export const generateResumeSummary = async(resumeData) => {
 
 // ================= Accomplishments =================
 
-export const generateAccomplishments = async({
+export const generateAccomplishments = async ({
     role,
     company,
     accomplishments,
@@ -70,7 +70,7 @@ export const generateAccomplishments = async({
 
 // ================= Skills =================
 
-export const generateSkills = async(resumeData) => {
+export const generateSkills = async (resumeData) => {
     try {
 
         const prompt = skillsPrompt(
@@ -100,7 +100,7 @@ export const generateSkills = async(resumeData) => {
 
 // ================= Experience =================
 
-export const generateExperience = async(resumeData) => {
+export const generateExperience = async (resumeData) => {
     try {
 
         const prompt = experiencePrompt(resumeData);
@@ -126,7 +126,7 @@ export const generateExperience = async(resumeData) => {
 
 // ================= ATS Score =================
 
-export const generateATSScore = async(resumeData) => {
+export const generateATSScore = async (resumeData) => {
     try {
 
         const prompt = atsScorePrompt(resumeData);
@@ -157,7 +157,7 @@ export const generateATSScore = async(resumeData) => {
 
 // ================= Project Description =================
 
-export const generateProjectDescription = async(projectData) => {
+export const generateProjectDescription = async (projectData) => {
     try {
 
         const prompt = projectDescriptionPrompt(projectData);
