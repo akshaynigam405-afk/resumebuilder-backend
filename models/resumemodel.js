@@ -10,7 +10,7 @@ const resumeSchema = new mongoose.Schema(
 
         title: {
             type: String,
-            default: "Untitled Resume"
+            default: "Untitled"
         },
 
         status: {
