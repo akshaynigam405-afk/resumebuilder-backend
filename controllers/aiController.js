@@ -8,6 +8,8 @@ import {
     generateCertificateDescriptionAI,
 } from "../services/geminiService.js";
 
+
+
 // ================= Resume Summary =================
 
 export const generateSummary = async(req, res) => {

@@ -2,20 +2,21 @@ import mongoose from "mongoose";
 
 const resumeSchema = new mongoose.Schema(
     {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: false
-        },
 
         title: {
             type: String,
-            default: "Untitled Resume"
+            default: "Untitled"
         },
 
         status: {
             type: String,
             enum: ["draft", "completed"],
+            default: "draft"
+        },
+
+        resumeType: {
+            type: String,
+            enum: ["draft", "created", "uploaded"],
             default: "draft"
         },
 
