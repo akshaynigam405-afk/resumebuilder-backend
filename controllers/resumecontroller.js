@@ -1,8 +1,9 @@
 import fs from "fs";
 import { PDFParse } from "pdf-parse";
 import mammoth from "mammoth";
-
+import User from "../models/Usermodel.js";
 import Resume from "../models/resumemodel.js";
+import { generateATSScore } from "../services/geminiService.js";
 import { parseResumeWithGemini } from "../utils/geminiparser.js";
 
 export const uploadResume = async (req, res) => {
@@ -161,12 +162,40 @@ export const uploadResume = async (req, res) => {
         // Store original resume text
         resumeData.resumeText = resumeText;
 
+        const atsResult = await generateATSScore({
+            fullName: resumeData.personalInfo.fullName,
+            jobTitle: resumeData.personalInfo.jobTitle,
+            experience: resumeData.experience,
+            education: resumeData.education,
+            skills: resumeData.skills,
+            projects: resumeData.projects,
+            certificates: resumeData.certifications,
+        });
+
         // Save in MongoDB
 
         console.log("========== Gemini Parsed Data ==========");
         console.log(JSON.stringify(resumeData, null, 2));
 
-        const resume = await Resume.create(resumeData);
+        const resume = await Resume.create({
+
+            ...resumeData,
+
+            title:
+                resumeData.personalInfo?.fullName
+                    ? resumeData.personalInfo.fullName
+                    : "Uploaded Resume",
+
+            status: "completed",
+
+            resumeType: "uploaded",
+
+            progress: 100,
+
+            currentStep: 8,
+
+            atsScore: atsResult.overallScore
+        });
         console.log("========== Saved Document ==========");
         console.log(resume);
 
@@ -210,16 +239,19 @@ export const createResume = async (req, res) => {
 
     try {
 
+        const fullName = req.body?.fullName || "";
+
         const resume = await Resume.create({
 
-            user: req.user?.id,
-
-            title: "Untitled Resume",
+            title: fullName || "Resume",
 
             status: "draft",
+            resumeType: "draft",
+            progress: 0,
 
-            progress: 0
-
+            personalInfo: {
+                fullName: fullName
+            }
         });
 
         res.status(201).json({
@@ -230,9 +262,9 @@ export const createResume = async (req, res) => {
 
         });
 
-    }
+    } catch (error) {
 
-    catch (error) {
+        console.log("CREATE RESUME ERROR:", error);
 
         res.status(500).json({
 
@@ -404,6 +436,8 @@ export const completeResume = async (req, res) => {
 
         resume.progress = 100;
 
+        resume.resumeType = "created";
+
         resume.currentStep = 8;
 
         resume.atsScore = req.body.atsScore || 0;
@@ -519,13 +553,14 @@ export const duplicateResume = async (req, res) => {
         delete duplicate.createdAt;
         delete duplicate.updatedAt;
         delete duplicate.__v;
-        delete duplicate.email; 
+        delete duplicate.email;
 
         duplicate.title = `${resume.title} Copy`;
-        duplicate.status = "draft";
-        duplicate.progress = 90;     // 7th step tak completed
-        duplicate.currentStep = 7;   // ATS Analysis se continue hoga
-        duplicate.atsScore = 0;      // Naya ATS score generate hoga
+        duplicate.status = "completed";
+        duplicate.resumeType = "uploaded";
+        duplicate.progress = 100;     // 7th step tak completed
+        duplicate.currentStep = 8;   // ATS Analysis se continue hoga
+        duplicate.atsScore = resume.atsScore;      // Naya ATS score generate hoga
         duplicate.email = `${Date.now()}@temp.com`;
 
         const newResume = await Resume.create(duplicate);

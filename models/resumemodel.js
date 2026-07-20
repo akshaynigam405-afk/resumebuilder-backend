@@ -2,11 +2,6 @@ import mongoose from "mongoose";
 
 const resumeSchema = new mongoose.Schema(
     {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: false
-        },
 
         title: {
             type: String,
@@ -16,6 +11,12 @@ const resumeSchema = new mongoose.Schema(
         status: {
             type: String,
             enum: ["draft", "completed"],
+            default: "draft"
+        },
+
+        resumeType: {
+            type: String,
+            enum: ["draft", "created", "uploaded"],
             default: "draft"
         },
 
