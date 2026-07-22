@@ -11,6 +11,7 @@ import {
     deleteResume,
     renameResume,
     duplicateResume,
+    downloadWordResume,
 } from "../controllers/resumecontroller.js";
 
 const router = express.Router();
@@ -83,5 +84,11 @@ router.post(
     "/resume/:id/duplicate",
     duplicateResume
 );
+
+router.post(
+    "/resume/download-word",
+    downloadWordResume
+);
+
 
 export default router;

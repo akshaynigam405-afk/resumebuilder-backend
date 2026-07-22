@@ -5,6 +5,7 @@ import User from "../models/Usermodel.js";
 import Resume from "../models/resumemodel.js";
 import { generateATSScore } from "../services/geminiService.js";
 import { parseResumeWithGemini } from "../utils/geminiparser.js";
+import HTMLtoDOCX from "html-to-docx";
 
 export const uploadResume = async (req, res) => {
 
@@ -579,4 +580,53 @@ export const duplicateResume = async (req, res) => {
         });
     }
 
+};
+
+export const downloadWordResume = async (req, res) => {
+    try {
+
+        const { html } = req.body;
+
+        if (!html) {
+            return res.status(400).json({
+                success: false,
+                message: "HTML is required",
+            });
+        }
+
+        const fileBuffer = await HTMLtoDOCX(html, null, {
+            pageSize: {
+                width: 12240,
+                height: 15840,
+            },
+            margins: {
+                top: 720,
+                right: 720,
+                bottom: 720,
+                left: 720,
+            },
+        });
+
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        );
+
+        res.setHeader(
+            "Content-Disposition",
+            'attachment; filename="Resume.docx"'
+        );
+
+        return res.send(fileBuffer);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
 };
