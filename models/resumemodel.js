@@ -56,6 +56,11 @@ const resumeSchema = new mongoose.Schema(
                 type: String,
                 default: ""
             },
+
+            linkedin: {
+                type: String,
+                default: "",
+            },
             portfolio: {
                 type: String,
                 default: ""
